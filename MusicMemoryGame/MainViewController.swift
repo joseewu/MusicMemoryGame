@@ -18,7 +18,7 @@ class MainViewController: UIViewController {
     private let timerTip:UILabel = UILabel()
     private var direction:UIDeviceOrientation = .portrait
     private var data:[MatchStatus] = [MatchStatus]()
-    var answerData = [Int]()
+    private var answerData = [Int]()
     private var timer:Timer = Timer()
     private var choose:[Bool] = [Bool]()
     private var chooseStorage:[Int] = [Int]()
@@ -93,7 +93,7 @@ class MainViewController: UIViewController {
         }
         print(answerData)
     }
-    func pickRandomNumber() -> (Int,Int) {
+    private func pickRandomNumber() -> (Int,Int) {
         let randomNumber1 = arc4random_uniform(20)
         var randomNumber2 = arc4random_uniform(20)
         while randomNumber2 == randomNumber1 {
@@ -110,10 +110,11 @@ class MainViewController: UIViewController {
             guard count < self.data.count else {
                 timer.invalidate()
                 SoundsFactory.shared.stopSound()
+                self.tilesView.reloadData()
                 return
             }
             let cell = self.tilesView.cellForItem(at: IndexPath(row: count, section: 0))
-            SoundsFactory.shared.playSound(withHz: self.answerData[count])
+            self.playSound(index: count, seconds: 0.1)
             cell?.backgroundColor = UIColor.brown
             count += 1
         })
@@ -135,7 +136,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         choose[indexPath.row] = true
         chooseStorage.append(indexPath.row)
-        playSound(index: indexPath.row)
+        playSound(index: indexPath.row, seconds: 0.4)
         assign()
         tilesView.reloadData()
     }
@@ -164,10 +165,11 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
         return true
     }
-    private func playSound(index:Int) {
+    private func playSound(index:Int, seconds: Double) {
         let chooseSound = answerData[index]
         SoundsFactory.shared.playSound(withHz: chooseSound)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        let time = DispatchTime.now() + seconds
+        DispatchQueue.main.asyncAfter(deadline: time) {
             SoundsFactory.shared.stopSound()
         }
     }

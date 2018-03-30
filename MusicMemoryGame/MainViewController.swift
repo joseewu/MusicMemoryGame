@@ -135,16 +135,17 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         choose[indexPath.row] = true
         chooseStorage.append(indexPath.row)
+        playSound(index: indexPath.row)
         assign()
         tilesView.reloadData()
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainViewController.cellIdentifier, for: indexPath)
         let status = data[indexPath.row]
-        let choiceMatching = choose[indexPath.row]
+        let choice = choose[indexPath.row]
         switch status {
         case .inconsistent:
-            if choiceMatching {
+            if choice {
                 cell.backgroundColor = UIColor.red
             } else {
                 cell.backgroundColor = UIColor.lightGray
@@ -163,17 +164,30 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
         return true
     }
+    private func playSound(index:Int) {
+        let chooseSound = answerData[index]
+        SoundsFactory.shared.playSound(withHz: chooseSound)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            SoundsFactory.shared.stopSound()
+        }
+    }
     private func assign() {
-
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             if self.chooseStorage.count > 1 {
                 let first = self.chooseStorage[0]
                 let second = self.chooseStorage[1]
+                self.match(first: first, second: second)
                 self.choose[first] = false
                 self.choose[second] = false
                 self.chooseStorage.removeAll()
             }
             self.tilesView.reloadData()
+        }
+    }
+    private func match(first:Int, second:Int) {
+        if answerData[first] == answerData[second] {
+            data[first] = .match
+            data[second] = .match
         }
     }
 }

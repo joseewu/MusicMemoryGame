@@ -30,6 +30,7 @@ class CountingView: UIView {
     }
 
     private func renderUi() {
+        backgroundColor = UIColor.clear
         hour.text = "00"
         hour.textAlignment = .center
         hour.textColor = UIColor.white

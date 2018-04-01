@@ -13,6 +13,7 @@ enum MatchStatus {
 }
 class MainViewController: UIViewController {
     static private let cellIdentifier:String = "cellIdentifier"
+    private let backgroundImg:UIImageView = UIImageView(image: UIImage(named: "background"))
     private let start:UIButton = UIButton()
     private var tilesView:UICollectionView!
     private let timerTip:UILabel = UILabel()
@@ -45,6 +46,9 @@ class MainViewController: UIViewController {
         renderUi()
     }
     private func renderUi() {
+        backgroundImg.frame = view.bounds
+        backgroundImg.contentMode = .scaleAspectFill
+        view.addSubview(backgroundImg)
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = tilesSize
         tilesView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
@@ -64,6 +68,7 @@ class MainViewController: UIViewController {
         timerTip.font = UIFont(name: "", size: 30)
         view.addSubview(timerTip)
         counting.isHidden = true
+        counting.backgroundColor = UIColor.clear
         view.addSubview(counting)
         setConstraints()
         prepareData()
@@ -156,7 +161,7 @@ class MainViewController: UIViewController {
     }
     private func setConstraints() {
         let collectionWidth = view.frame.size.width - 40
-        let collectionHight = view.frame.size.height - 40
+        let collectionHight = view.frame.size.height - 120
         tilesView.frame = CGRect(x: 20, y: 120, width: collectionWidth, height:collectionHight)
         start.frame = CGRect(x: view.center.x - 100, y: 30, width: 200, height:80)
         counting.frame = CGRect(x: 20, y: view.frame.size.height - 80, width: collectionWidth, height:60)

@@ -19,6 +19,8 @@
 		EBC9EEF220600A9D0015DC58 /* MusicMemoryGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC9EEF120600A9D0015DC58 /* MusicMemoryGameTests.swift */; };
 		EBC9EEFD20600A9D0015DC58 /* MusicMemoryGameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC9EEFC20600A9D0015DC58 /* MusicMemoryGameUITests.swift */; };
 		EBC9EF0B20600EE20015DC58 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC9EF0A20600EE20015DC58 /* MainViewController.swift */; };
+		EBE35D8F2071266100757340 /* CountingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE35D8E2071266100757340 /* CountingView.swift */; };
+		EBE35D91207130DF00757340 /* CountingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE35D90207130DF00757340 /* CountingTimer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +65,8 @@
 		EBC9EEFC20600A9D0015DC58 /* MusicMemoryGameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicMemoryGameUITests.swift; sourceTree = "<group>"; };
 		EBC9EEFE20600A9D0015DC58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EBC9EF0A20600EE20015DC58 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		EBE35D8E2071266100757340 /* CountingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountingView.swift; sourceTree = "<group>"; };
+		EBE35D90207130DF00757340 /* CountingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountingTimer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,7 +147,9 @@
 			children = (
 				EBC9EED920600A9D0015DC58 /* AppDelegate.swift */,
 				EBC9EF0A20600EE20015DC58 /* MainViewController.swift */,
+				EBE35D90207130DF00757340 /* CountingTimer.swift */,
 				EB61D66E20615B9E0086017A /* SoundsFactory.swift */,
+				EBE35D8E2071266100757340 /* CountingView.swift */,
 				EBC9EEDD20600A9D0015DC58 /* Main.storyboard */,
 				EBC9EEE320600A9D0015DC58 /* Assets.xcassets */,
 				EBC9EEE520600A9D0015DC58 /* LaunchScreen.storyboard */,
@@ -470,7 +476,9 @@
 			files = (
 				EBC9EEDA20600A9D0015DC58 /* AppDelegate.swift in Sources */,
 				EBC9EEE220600A9D0015DC58 /* MusicMemoryGame.xcdatamodeld in Sources */,
+				EBE35D91207130DF00757340 /* CountingTimer.swift in Sources */,
 				EB61D66F20615B9E0086017A /* SoundsFactory.swift in Sources */,
+				EBE35D8F2071266100757340 /* CountingView.swift in Sources */,
 				EBC9EF0B20600EE20015DC58 /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

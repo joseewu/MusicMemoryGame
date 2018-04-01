@@ -20,8 +20,11 @@ class MainViewController: UIViewController {
     private var data:[MatchStatus] = [MatchStatus]()
     private var answerData = [Int]()
     private var timer:Timer = Timer()
+    private var countingTimer:Timer = Timer()
     private var choose:[Bool] = [Bool]()
     private var chooseStorage:[Int] = [Int]()
+    private let counting:CountingView = CountingView()
+    private var isTimerFired:Bool = true
     private var tilesSize:CGSize {
         set {
             self.tilesSize = newValue
@@ -51,15 +54,17 @@ class MainViewController: UIViewController {
         tilesView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: MainViewController.cellIdentifier)
         view.addSubview(tilesView)
         start.setTitle("開始", for: .normal)
+        start.titleLabel?.font = UIFont(name: "Thonburi-Bold", size: 25)!
         start.setTitle("停止", for: .selected)
         start.titleLabel?.textAlignment = .center
-        start.titleLabel?.font = UIFont(name: "", size: 40)
         start.addTarget(self, action: #selector(MainViewController.didPressStart(sender:)), for: .touchUpInside)
         view.addSubview(start)
         timerTip.text = "00:00:00"
         timerTip.textAlignment = .center
         timerTip.font = UIFont(name: "", size: 30)
         view.addSubview(timerTip)
+        counting.isHidden = true
+        view.addSubview(counting)
         setConstraints()
         prepareData()
         prepareAnswer()
@@ -102,7 +107,13 @@ class MainViewController: UIViewController {
         return (Int(randomNumber1), Int(randomNumber2))
     }
     @objc func didPressStart(sender:UIButton) {
-        sortingCard()
+        sender.isSelected = !sender.isSelected
+        if sender.isSelected {
+            sortingCard()
+        } else {
+            isTimerFired = false
+            return
+        }
     }
     private func sortingCard() {
         var count = 0
@@ -111,6 +122,8 @@ class MainViewController: UIViewController {
                 timer.invalidate()
                 SoundsFactory.shared.stopSound()
                 self.tilesView.reloadData()
+                self.counting.isHidden = false
+                self.setCountingTimer()
                 return
             }
             let cell = self.tilesView.cellForItem(at: IndexPath(row: count, section: 0))
@@ -119,11 +132,34 @@ class MainViewController: UIViewController {
             count += 1
         })
     }
+    private func setCountingTimer() {
+        var seconds:Int = 0
+        countingTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
+            if !self.isTimerFired {
+                self.countingTimer.invalidate()
+                return
+            }
+            seconds += 1
+            self.updateTime(seconds)
+        })
+    }
+    @objc private func updateTime(_ seconds:Int) {
+        var hour:Int = 0
+        var minute:Int = 0
+        var second:Int = seconds
+        minute = second/60%60
+        hour = minute/3600
+        second = second % 60
+        counting.update(hours: String(format:"%02d", hour),
+                        minutes: String(format:"%02d", minute),
+                        seconds: String(format:"%02d", second))
+    }
     private func setConstraints() {
         let collectionWidth = view.frame.size.width - 40
         let collectionHight = view.frame.size.height - 40
         tilesView.frame = CGRect(x: 20, y: 120, width: collectionWidth, height:collectionHight)
-        start.frame = CGRect(x: view.center.x - 100, y: 30, width: 200, height:60)
+        start.frame = CGRect(x: view.center.x - 100, y: 30, width: 200, height:80)
+        counting.frame = CGRect(x: 20, y: view.frame.size.height - 80, width: collectionWidth, height:60)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
